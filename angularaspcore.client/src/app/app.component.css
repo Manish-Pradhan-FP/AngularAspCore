@@ -1,6 +1,5 @@
 ﻿:host {
     max-width: 1280px;
-    padding: 2rem;
     text-align: center;
 }
 
@@ -12,11 +11,27 @@ tr:nth-child(odd) {
     background: #FFF;
 }
 
-th, td {
+th,
+td {
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
 table {
     margin: 0 auto;
+}
+
+.portal {
+    background: #ffb1b1;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .components {
+        background: #afefbd;
+        flex: 1;
+        padding: 24px;
+    }
 }

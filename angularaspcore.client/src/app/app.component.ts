@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd, Event } from '@angular/router';
 
-interface WeatherForecast {
+interface WeatherForecast
+{
   date: string;
   temperatureC: number;
   temperatureF: number;
@@ -13,25 +15,53 @@ interface WeatherForecast {
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit
+{
   public forecasts: WeatherForecast[] = [];
+  undocked = false;
+  title = 'Portal App';
+  currentRoute = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router)
+  {
+    this.undocked = window.location.href.includes("undocked=true");
 
-  ngOnInit() {
+    router.events.subscribe((event: Event) =>
+    {
+      if (event instanceof NavigationEnd) 
+      {
+        if (event.url.includes('/form'))
+        {
+          this.currentRoute = "form";
+        }
+        else if (event.url.includes('/table'))
+        {
+          this.currentRoute = "table";
+        }
+        else
+        {
+          this.currentRoute = "";
+        }
+      }
+    });
+  }
+
+  ngOnInit()
+  {
     this.getForecasts();
   }
 
-  getForecasts() {
+  getForecasts()
+  {
     this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
+      (result) =>
+      {
         this.forecasts = result;
       },
-      (error) => {
+      (error) =>
+      {
         console.error(error);
       }
     );
   }
-
-  title = 'angularaspcore.client';
 }

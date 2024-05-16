@@ -1,24 +1,43 @@
-﻿<h1 id="tableLabel">Weather forecast</h1>
+﻿<div class="portal">
+    <div class="header" *ngIf="!undocked">
+        <p>This data is being fetched from the ASP .Net Core Server.</p>
 
-<p>This component demonstrates fetching data from the server.</p>
+        <p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a
+                    href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more
+                details.</em></p>
 
-<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+        <table *ngIf="forecasts">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Temp. (C)</th>
+                    <th>Temp. (F)</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let forecast of forecasts">
+                    <td>{{ forecast.date }}</td>
+                    <td>{{ forecast.temperatureC }}</td>
+                    <td>{{ forecast.temperatureF }}</td>
+                    <td>{{ forecast.summary }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-<table *ngIf="forecasts">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-        </tr>
-    </tbody>
-</table>
+        <button type="button" routerLinkActive="active" routerLink="">Home</button>
+        <button type="button" routerLinkActive="active" routerLink="/table">WO Table</button>
+    </div>
+
+    <div class="breadcrumbs" *ngIf="!undocked && currentRoute == 'table'">
+        <a routerLink="">Home</a> > Work Order Table
+    </div>
+
+    <div class="breadcrumbs" *ngIf="!undocked && currentRoute == 'form'">
+        <a routerLink="">Home</a> > <a routerLink="/table">Work Order Table</a> > Work Order 10026
+    </div>
+
+    <div class="components">
+        <router-outlet></router-outlet>
+    </div>
+</div>
